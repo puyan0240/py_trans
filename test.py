@@ -1,11 +1,14 @@
+import googletrans
 from googletrans import Translator
 
 
 trans = Translator()
 
+print(googletrans.LANGUAGES)    #言語リスト
+
 try:
     bf = "今日は暑いですね"
-    af = trans.translate(bf, "en")
+    af = trans.translate(bf, "estonian")
     print(bf+" -> "+af.text)
 
     bf = "it is hot today"
