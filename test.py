@@ -1,4 +1,3 @@
-from socket import TCP_NODELAY
 from googletrans import Translator
 
 
