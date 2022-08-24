@@ -63,16 +63,18 @@ def btn_trans_clicked():
     #翻訳実行
     #-------------------------------------------------------
     trans = Translator()
-    try:
-        if lang_src == "":  #翻訳元=自動
-            result = trans.translate(input_text, dest=lang_dst)
-        else:   #翻訳元=指定あり
-            result = trans.translate(input_text, src=lang_src, dest=lang_dst)
-        #print(result.text)
-        #翻訳先に出力
-        text_dst.insert(tkinter.END, result.text)
-    except Exception as e:
-        print(e)
+
+    for text in input_text_list:
+        try:
+            if lang_src == "":  #翻訳元=自動
+                result = trans.translate(text, dest=lang_dst)
+            else:   #翻訳元=指定あり
+                result = trans.translate(text, src=lang_src, dest=lang_dst)
+            #print(result.text)
+            #翻訳先に出力
+            text_dst.insert(tkinter.END, result.text)
+        except Exception as e:
+            print(e)
     return
 
 
