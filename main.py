@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk
 import googletrans
 from googletrans import Translator
+import re
 
 
 #言語テーブル
@@ -25,11 +26,8 @@ lang_tbl = [
 ############################################################
 def btn_trans_clicked():
 
-    #-------------------------------------------------------
-    #翻訳元（入力）の文字取得
-    #-------------------------------------------------------
-    input_text = text_src.get('1.0', 'end')
-    #print(input_text)
+    #翻訳先の文字を消す
+    text_dst.delete('1.0', tkinter.END)
 
     lang_src = lang_dst = ""
     #-------------------------------------------------------
@@ -52,6 +50,16 @@ def btn_trans_clicked():
 
 
     #-------------------------------------------------------
+    #翻訳元（入力）の文字取得
+    #-------------------------------------------------------
+    input_text = text_src.get('1.0', tkinter.END+'-1c')
+    if len(input_text) == 0:
+        return  #入力文字数なし
+    input_text_list = re.split(r'[.。?？]', input_text, 0) #.か。で分離
+    print(input_text)
+    print(input_text_list)
+
+    #-------------------------------------------------------
     #翻訳実行
     #-------------------------------------------------------
     trans = Translator()
@@ -60,7 +68,9 @@ def btn_trans_clicked():
             result = trans.translate(input_text, dest=lang_dst)
         else:   #翻訳元=指定あり
             result = trans.translate(input_text, src=lang_src, dest=lang_dst)
-        print(result.text)
+        #print(result.text)
+        #翻訳先に出力
+        text_dst.insert(tkinter.END, result.text)
     except Exception as e:
         print(e)
     return
