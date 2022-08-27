@@ -5,26 +5,74 @@ from googletrans import Translator
 import re
 
 
+#翻訳方向
+TRANS_DIR_RIGHT = 0 #左から右へ
+TRANS_DIR_LEFT = 1  #右から左へ
+TRANS_DIR_TBL_VAL = 0
+TRANS_DIR_TBL_TEXT = 1
+trans_dir_text_tbl = [
+    ">>> 翻訳方向 >>>", #TRANS_DIR_RIGHT
+    "<<< 翻訳方向 <<<", #TRANS_DIR_LEFT
+]
+trans_dir = TRANS_DIR_RIGHT
+
+
 #言語テーブル
 LANG_TBL_NAME=0
 LANG_TBL_PARAME=1
 lang_tbl = [
-    ["日本語", "ja"],
-    ["English(英語)", "en"],
-    ["German(ドイツ語)", "de"],
-    ["French(フランス語)", "fr"],
-    ["Spanish(スペイン語)", "es"],
-    ["Portuguese(ポルトガル語)", "pt"],
-    ["Russian(ロシア語)", "ru"],
-    ["Korean(韓国語)", "ko"],
-    ["chinese(中国語)", "zh-cn"]
+    ["Japanese (日本語)", "ja"],
+    ["English (英語)", "en"],
+    ["German (ドイツ語)", "de"],
+    ["French (フランス語)", "fr"],
+    ["Spanish (スペイン語)", "es"],
+    ["Portuguese (ポルトガル語)", "pt"],
+    ["Russian (ロシア語)", "ru"],
+    ["Korean (韓国語)", "ko"],
+    ["chinese (中国語)", "zh-cn"]
 ]
 
 
 ############################################################
-#翻訳ボタンが押されました
+#翻訳方向ボタンが押されました
+############################################################
+def btn_trans_dir_clicked():
+    global trans_dir
+
+    if trans_dir == TRANS_DIR_RIGHT:
+        trans_dir = TRANS_DIR_LEFT      #翻訳は右から左へ
+        #ラベル表示を変更
+        label_left['text'] = "翻訳先"        
+        label_right['text'] = "翻訳元"
+
+    else:
+        trans_dir = TRANS_DIR_RIGHT     #翻訳は左から右へ
+        #ラベル表示を変更
+        label_left['text'] = "翻訳元"
+        label_right['text'] = "翻訳先"
+
+    #ボタンの表示を変更
+    trans_dir_text = trans_dir_text_tbl[trans_dir]
+    btn_trans_dir['text'] = trans_dir_text
+    return
+
+
+############################################################
+#翻訳実行ボタンが押されました
 ############################################################
 def btn_trans_clicked():
+
+    if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
+        text_src = text_left
+        text_dst = text_right
+        cb_src   = cb_left
+        cb_dst   = cb_right
+    else:
+        text_src = text_right
+        text_dst = text_left
+        cb_src   = cb_left
+        cb_dst   = cb_right
+
 
     #翻訳先の文字を消す
     text_dst.delete('1.0', tkinter.END)
@@ -52,31 +100,31 @@ def btn_trans_clicked():
     #-------------------------------------------------------
     #翻訳元（入力）の文字取得
     #-------------------------------------------------------
-    input_text = text_src.get('1.0', tkinter.END+'-1c')
-    if len(input_text) == 0:
+    str_src = text_src.get('1.0', tkinter.END+'-1c')
+    if len(str_src) == 0:
         return  #入力文字数なし
-    input_text_list = re.split(r'[.。?？]', input_text, 0) #.か。で分離
-    print(input_text)
-    print(input_text_list)
+    str_src_list = re.split(r'[.。?？]', str_src, 0) #.か。で分離
+    print(str_src)
+    print(str_src_list)
+
 
     #-------------------------------------------------------
     #翻訳実行
     #-------------------------------------------------------
     trans = Translator()
 
-    for text in input_text_list:
+    for str_src_line in str_src_list:
         try:
             if lang_src == "":  #翻訳元=自動
-                result = trans.translate(text, dest=lang_dst)
+                result = trans.translate(str_src_line, dest=lang_dst)
             else:   #翻訳元=指定あり
-                result = trans.translate(text, src=lang_src, dest=lang_dst)
+                result = trans.translate(str_src_line, src=lang_src, dest=lang_dst)
             #print(result.text)
             #翻訳先に出力
             text_dst.insert(tkinter.END, result.text)
         except Exception as e:
             print(e)
     return
-
 
 
 
@@ -91,55 +139,56 @@ frame_trans = tkinter.Frame(root)
 frame_trans.pack()
 
 #-----------------------------------------------------------
-#翻訳元の言語メニュー
+#左側の言語メニュー
 #-----------------------------------------------------------
 #ラベル
-label_src = tkinter.Label(frame_trans, text="翻訳元")
-label_src.grid(row=0, column=0)
+label_left = tkinter.Label(frame_trans, text="翻訳元")
+label_left.grid(row=0, column=0)
 
 #Combobox
-cb_src_menu = [] #メニューリスト
-cb_src_menu.append("自動")
+cb_menu = [] #メニューリスト
 for val in lang_tbl:
-    cb_src_menu.append(val[LANG_TBL_NAME])
-v_src = tkinter.StringVar()
-cb_src = ttk.Combobox(frame_trans, textvariable=v_src, values=cb_src_menu, state="readonly", width=20)
-cb_src.current(0)
-cb_src.grid(row=1, column=0)
+    cb_menu.append(val[LANG_TBL_NAME])
+v_left = tkinter.StringVar()
+cb_left = ttk.Combobox(frame_trans, textvariable=v_left, values=cb_menu, state="readonly", width=20)
+cb_left.current(0)
+cb_left.grid(row=1, column=0)
 
 #Text
-text_src = tkinter.Text(frame_trans, width=40)
-text_src.grid(row=2, column=0)
+text_left = tkinter.Text(frame_trans, width=40)
+text_left.grid(row=2, column=0)
 
 
 #-----------------------------------------------------------
-#翻訳ボタン
+#ボタン
 #-----------------------------------------------------------
+#翻訳方向ボタン
+trans_dir_text = trans_dir_text_tbl[trans_dir]
+btn_trans_dir = tkinter.Button(frame_trans, text=trans_dir_text, width=15, command=btn_trans_dir_clicked)
+btn_trans_dir.grid(row=0, column=1, rowspan=2)
+
+#翻訳実行ボタン
 btn_trans = tkinter.Button(frame_trans, text="翻訳", width=15, command=btn_trans_clicked)
-btn_trans.grid(row=0, column=1, rowspan=3)
+btn_trans.grid(row=2, column=1)
 
 
 #-----------------------------------------------------------
-#翻訳先の言語メニュー
+#右側の言語メニュー
 #-----------------------------------------------------------
 #ラベル
-label_dst = tkinter.Label(frame_trans, text="翻訳先")
-label_dst.grid(row=0, column=2)
+label_right = tkinter.Label(frame_trans, text="翻訳先")
+label_right.grid(row=0, column=2)
 
 
 #Combobox
-cb_dst_menu = [] #メニューリスト
-for val in lang_tbl:
-    cb_dst_menu.append(val[LANG_TBL_NAME])
-v_dst = tkinter.StringVar()
-cb_dst = ttk.Combobox(frame_trans, textvariable=v_dst, values=cb_dst_menu, state="readonly", width=20)
-cb_dst.current(0)
-cb_dst.grid(row=1, column=2)
+v_right = tkinter.StringVar()
+cb_right = ttk.Combobox(frame_trans, textvariable=v_right, values=cb_menu, state="readonly", width=20)
+cb_right.current(1)
+cb_right.grid(row=1, column=2)
 
 #Text
-text_dst = tkinter.Text(frame_trans, width=40)
-text_dst.grid(row=2, column=2)
-
+text_right = tkinter.Text(frame_trans, width=40)
+text_right.grid(row=2, column=2)
 
 
 #root.resizable(False, False)    #ウィンドウサイズ固定
