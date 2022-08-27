@@ -143,7 +143,7 @@ def btn_trans_clicked():
 
 root = tkinter.Tk()
 root.title("Trans")
-root.geometry("1000x600")
+#root.geometry("1000x600")
 
 frame_top = tkinter.Frame(root)
 frame_top.pack()
@@ -168,8 +168,8 @@ cb_left.current(0)
 cb_left.grid(row=1, column=0)
 
 #Text
-text_left = tkinter.Text(frame_trans, width=50)
-text_left.grid(row=2, column=0)
+text_left = tkinter.Text(frame_trans, width=60,padx=10)
+text_left.grid(row=2, column=0, padx=10, pady=10)
 
 
 #-----------------------------------------------------------
@@ -204,8 +204,8 @@ cb_right.current(1)
 cb_right.grid(row=1, column=2)
 
 #Text
-text_right = tkinter.Text(frame_trans, width=50)
-text_right.grid(row=2, column=2)
+text_right = tkinter.Text(frame_trans, width=60, padx=10)
+text_right.grid(row=2, column=2, padx=10, pady=10)
 
 
 #root.resizable(False, False)    #ウィンドウサイズ固定
