@@ -208,6 +208,23 @@ def btn_trans_clicked():
 #リセットボタンが押されました
 ############################################################
 def btn_reset_clicked():
+    global trans_dir
+
+    trans_dir = TRANS_DIR_RIGHT
+
+    #Label
+    label_left['text'] = "翻訳元"
+    label_right['text'] = "翻訳先"
+    #Text
+    text_left.config(state=tkinter.NORMAL)
+    text_left.delete('1.0', tkinter.END)
+    text_left.config(bg='white', bd=1)
+    text_right.config(state=tkinter.NORMAL)
+    text_right.delete('1.0', tkinter.END)
+    text_right.config(bg='gray97', bd=0)
+    text_right.config(state=tkinter.DISABLED)
+    #翻訳ボタン
+    btn_trans_dir['text'] = trans_dir_text_tbl[trans_dir]
     return
 
 
