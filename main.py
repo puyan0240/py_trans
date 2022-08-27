@@ -223,6 +223,14 @@ def btn_reset_clicked():
     text_right.delete('1.0', tkinter.END)
     text_right.config(bg='gray97', bd=0)
     text_right.config(state=tkinter.DISABLED)
+    #Combobox
+    cb_menu = [] #メニューリスト
+    for val in lang_auto_puls_tbl:
+        cb_menu.append(val[LANG_TBL_NAME])
+    cb_left.config(values=cb_menu)
+    cb_left.current(0)
+    cb_right.current(0)
+
     #翻訳ボタン
     btn_trans_dir['text'] = trans_dir_text_tbl[trans_dir]
     return
