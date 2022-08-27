@@ -1,8 +1,11 @@
 import tkinter
 from tkinter import ttk
 import googletrans
-from googletrans import Translator
+from googletrans import Translator  #google翻訳
 import re
+from gtts import gTTS   #文字->音声ファイル化
+from playsound import playsound #音声ファイルを再生
+import os
 
 
 #翻訳方向
@@ -37,6 +40,7 @@ lang_auto_puls_tbl = [
 lang_auto_puls_tbl += lang_tbl
 split_tbl = [".", "。", "?", "？"]
 
+TMP_PLAY_FILENAME = "tmp_play.mp3"
 
 
 ############################################################
@@ -181,7 +185,7 @@ def btn_trans_clicked():
 
                 #翻訳先に出力
                 text_dst.config(state=tkinter.NORMAL)   #入力許可
-                text_dst.insert(tkinter.END, result.text+"\n")
+                text_dst.insert(tkinter.END, result.text+"\n")  #改行付きで
                 text_dst.config(state=tkinter.DISABLED) #入力規制
                 lang_auto_src = result.src  #翻訳元の言語
 
@@ -208,7 +212,56 @@ def btn_trans_clicked():
 #再生ボタンが押されました
 ############################################################
 def btn_play_clicked():
-    print("play")
+    global trans_dir
+
+    #翻訳方向
+    if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
+        #Text
+        text_dst = text_right
+        #Combobox
+        cb_dst = cb_right
+    else:
+        #Text
+        text_dst = text_left
+        #Combobox
+        cb_dst = cb_left
+
+    #翻訳先の言語
+    lang_dst = ""
+    tmp = cb_dst.get()
+    for val in lang_tbl:
+        if val[LANG_TBL_NAME] == cb_dst.get():
+            lang_dst = val[LANG_TBL_PARAME]
+            break
+    print(lang_dst)
+
+    #翻訳先の言語を改行毎にリスト化する
+    str_dst = text_dst.get('1.0', tkinter.END)
+    str_dst_list = str_dst.split("\n")
+    #print(str_dst_list)
+
+    #１行毎に読み上げる(PLAY)
+    for str_dst_line in str_dst_list:
+        if len(str_dst_line) != 0:
+            #音声ファイル化
+            try:
+                output = gTTS(str_dst_line, lang=lang_dst, slow=False)
+                output.save(TMP_PLAY_FILENAME)
+            except Exception as e:
+                print("save err: "+str(e))
+
+            #音声ファイルを再生
+            #
+            try:
+                playsound(TMP_PLAY_FILENAME)
+            except Exception as e:
+                print("play err: "+str(e))
+            
+            #音声ファイルを削除
+            try:
+                os.remove(TMP_PLAY_FILENAME)
+            except Exception as e:
+                print("remove err: "+str(e))
     return
 
 
