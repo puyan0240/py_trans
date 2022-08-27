@@ -31,6 +31,10 @@ lang_tbl = [
     ["Korean (韓国語)", "ko"],
     ["chinese (中国語)", "zh-cn"]
 ]
+lang_auto_puls_tbl = [
+    ["Auto", ""]
+]
+lang_auto_puls_tbl += lang_tbl
 split_tbl = [".", "。", "?", "？"]
 
 
@@ -49,6 +53,8 @@ def btn_trans_dir_clicked():
         #Text
         text_src = text_right
         text_dst = text_left
+        #Combobox
+        cb_dst = cb_left
     else:
         trans_dir = TRANS_DIR_RIGHT     #翻訳は左から右へ
         #ラベル表示を変更
@@ -57,6 +63,8 @@ def btn_trans_dir_clicked():
         #Text
         text_src = text_left
         text_dst = text_right
+        #Combobox
+        cb_dst = cb_right
 
     #ボタンの表示を変更
     btn_trans_dir['text'] = trans_dir_text_tbl[trans_dir]
@@ -64,6 +72,16 @@ def btn_trans_dir_clicked():
     #Text入力表示変更
     text_src.config(state=tkinter.NORMAL,bg='white',bd=1)
     text_dst.config(state=tkinter.DISABLED,bg='gray97',bd=0)
+
+    #Combox
+    #翻訳方向の切り替えにより翻訳先がAutoとなる場合は通常メニューに切り替える
+    if cb_dst.get() == "Auto":
+        cb_menu = [] #メニューリスト
+        for val in lang_tbl:
+            cb_menu.append(val[LANG_TBL_NAME])
+        cb_dst.config(values=cb_menu)
+        cb_dst.current(0)
+        
     return
 
 
@@ -100,7 +118,7 @@ def btn_trans_clicked():
     #-------------------------------------------------------
     lang_src = lang_dst = ""
     #翻訳元
-    if cb_src.get() != "自動":
+    if cb_src.get() != "Auto":
         for lang_tbl_line in lang_tbl:
             if lang_tbl_line[LANG_TBL_NAME] == cb_src.get():
                 lang_src = lang_tbl_line[LANG_TBL_PARAME]
@@ -179,7 +197,7 @@ label_left.grid(row=0, column=0)
 
 #Combobox
 cb_menu = [] #メニューリスト
-for val in lang_tbl:
+for val in lang_auto_puls_tbl:
     cb_menu.append(val[LANG_TBL_NAME])
 v_left = tkinter.StringVar()
 cb_left = ttk.Combobox(frame_trans, textvariable=v_left, values=cb_menu, state="readonly", width=20)
@@ -219,9 +237,12 @@ label_right.grid(row=0, column=2)
 
 
 #Combobox
+cb_menu = [] #メニューリスト
+for val in lang_tbl:
+    cb_menu.append(val[LANG_TBL_NAME])
 v_right = tkinter.StringVar()
 cb_right = ttk.Combobox(frame_trans, textvariable=v_right, values=cb_menu, state="readonly", width=20)
-cb_right.current(1)
+cb_right.current(0)
 cb_right.grid(row=1, column=2)
 
 #Text
