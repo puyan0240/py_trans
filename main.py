@@ -47,9 +47,9 @@ def btn_trans_dir_clicked():
 
     if trans_dir == TRANS_DIR_RIGHT:
         trans_dir = TRANS_DIR_LEFT      #翻訳は右から左へ
-        #ラベル表示を変更
-        label_left['text'] = "翻訳先"        
-        label_right['text'] = "翻訳元"
+        #Label
+        label_src = label_right
+        label_dst = label_left
         #Text
         text_src = text_right
         text_dst = text_left
@@ -57,23 +57,27 @@ def btn_trans_dir_clicked():
         cb_dst = cb_left
     else:
         trans_dir = TRANS_DIR_RIGHT     #翻訳は左から右へ
-        #ラベル表示を変更
-        label_left['text'] = "翻訳元"
-        label_right['text'] = "翻訳先"
+        #Label
+        label_src = label_left
+        label_dst = label_right
         #Text
         text_src = text_left
         text_dst = text_right
         #Combobox
         cb_dst = cb_right
 
-    #ボタンの表示を変更
-    btn_trans_dir['text'] = trans_dir_text_tbl[trans_dir]
+    #Label表示変更
+    label_src['text'] = "翻訳元"
+    label_dst['text'] = "翻訳先"
 
-    #Text入力表示変更
+    #Text入力規制表示変更
     text_src.config(state=tkinter.NORMAL,bg='white',bd=1)
     text_dst.config(state=tkinter.DISABLED,bg='gray97',bd=0)
 
-    #Combox
+    #ボタンの表示を変更
+    btn_trans_dir['text'] = trans_dir_text_tbl[trans_dir]
+
+    #Comboxメニュー変更
     #翻訳方向の切り替えにより翻訳先がAutoとなる場合は通常メニューに切り替える
     if cb_dst.get() == "Auto":
         cb_menu = [] #メニューリスト
@@ -95,6 +99,8 @@ def btn_trans_clicked():
 
     #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
+        #Label
+        label_src = label_left
         #Text
         text_src = text_left
         text_dst = text_right
@@ -102,6 +108,8 @@ def btn_trans_clicked():
         cb_src   = cb_left
         cb_dst   = cb_right
     else:
+        #Label
+        label_src = label_right
         #Text
         text_src = text_right
         text_dst = text_left
