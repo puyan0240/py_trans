@@ -204,6 +204,12 @@ def btn_trans_clicked():
     return
 
 
+############################################################
+#リセットボタンが押されました
+############################################################
+def btn_reset_clicked():
+    return
+
 
 root = tkinter.Tk()
 root.title("Trans")
@@ -235,7 +241,7 @@ cb_left.grid(row=1, column=0)
 text_left = tkinter.Text(frame_trans,  relief=tkinter.SOLID, width=60,padx=10)
 text_left.config(state=tkinter.NORMAL)   #入力許可
 text_left.config(bg="white", bd=1)    #入力許可時のText表示
-text_left.grid(row=2, column=0, padx=10, pady=10)
+text_left.grid(row=2, rowspan=2, column=0, padx=10, pady=10)
 
 
 #-----------------------------------------------------------
@@ -252,7 +258,11 @@ btn_trans_dir.grid(row=1, column=1)
 
 #翻訳実行ボタン
 btn_trans = tkinter.Button(frame_trans, text="翻訳", width=15, command=btn_trans_clicked)
-btn_trans.grid(row=2, column=1)
+btn_trans.grid(row=2, column=1,sticky=tkinter.S, padx=5, pady=5)
+
+#リセットボタン
+btn_reset = tkinter.Button(frame_trans, text="リセット", width=10, command=btn_reset_clicked)
+btn_reset.grid(row=3, column=1, sticky=tkinter.N,padx=5, pady=5)
 
 
 #-----------------------------------------------------------
@@ -276,7 +286,7 @@ cb_right.grid(row=1, column=2)
 text_right = tkinter.Text(frame_trans, relief=tkinter.SOLID, width=60, padx=10)
 text_right.config(state=tkinter.DISABLED)   #入力規制
 text_right.config(bg="gray97", bd=0)    #入力規制時のText表示
-text_right.grid(row=2, column=2, padx=10, pady=10)
+text_right.grid(row=2, rowspan=2, column=2, padx=10, pady=10)
 
 
 #root.resizable(False, False)    #ウィンドウサイズ固定
