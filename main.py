@@ -193,13 +193,14 @@ def btn_trans_clicked():
     #翻訳実行ボタン許可(２重押し防止)
     btn_trans.config(state=tkinter.NORMAL)
 
-    #翻訳元の言語がautoの場合は解析結果の翻訳元の言語を表示する
+    #翻訳元の言語がautoの場合は解析結果の言語をLabelに表示する
+    label_src['text'] = "翻訳元"
     if lang_src == "":  #翻訳元=auto
         for key in googletrans.LANGCODES:
             if googletrans.LANGCODES[key] == lang_auto_src:
-                print(key)  #TODO
+                text = " ("+ key +")"
+                label_src['text'] += text
                 break
-    print(lang_auto_src)    #TODO
     return
 
 
