@@ -31,6 +31,8 @@ lang_tbl = [
     ["Korean (韓国語)", "ko"],
     ["chinese (中国語)", "zh-cn"]
 ]
+split_tbl = [".", "。", "?", "？"]
+
 
 
 ############################################################
@@ -61,6 +63,7 @@ def btn_trans_dir_clicked():
 ############################################################
 def btn_trans_clicked():
 
+    #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
         text_src = text_left
         text_dst = text_right
@@ -99,12 +102,20 @@ def btn_trans_clicked():
     #-------------------------------------------------------
     #翻訳元（入力）の文字取得
     #-------------------------------------------------------
-    str_src = text_src.get('1.0', tkinter.END+'-1c')
+    #テキスト取得
+    str_src = text_src.get('1.0', tkinter.END)
+
+    #改行を全て削除
+    str_src = str_src.replace("\n", "")
     if len(str_src) == 0:
         return  #入力文字数なし
-    str_src_list = re.split(r'[.。?？]', str_src, 0) #.か。で分離
-    print(str_src)
-    print(str_src_list)
+
+    #分割文字を分割文字+改行に置換
+    for str_split in split_tbl:
+        str_src = str_src.replace(str_split, str_split+"\n")
+
+    #文章を改行で分割してリスト化する
+    str_src_list = str_src.split("\n")
 
 
     #-------------------------------------------------------
@@ -113,16 +124,19 @@ def btn_trans_clicked():
     trans = Translator()
 
     for str_src_line in str_src_list:
-        try:
-            if lang_src == "":  #翻訳元=自動
-                result = trans.translate(str_src_line, dest=lang_dst)
-            else:   #翻訳元=指定あり
-                result = trans.translate(str_src_line, src=lang_src, dest=lang_dst)
-            #print(result.text)
-            #翻訳先に出力
-            text_dst.insert(tkinter.END, result.text)
-        except Exception as e:
-            print(e)
+        if len(str_src_line) != 0:  #１文字以上ある場合
+            try:
+                if lang_src == "":  #翻訳元=自動
+                    result = trans.translate(str_src_line, dest=lang_dst)
+                else:   #翻訳元=指定あり
+                    result = trans.translate(str_src_line, src=lang_src, dest=lang_dst)
+                #print(result.text)
+                #翻訳先に出力
+                text_dst.insert(tkinter.END, result.text+"\n")
+            except Exception as e:
+                print(e)
+        else:
+            pass
     return
 
 
