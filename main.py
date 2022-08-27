@@ -72,8 +72,8 @@ def btn_trans_clicked():
     else:
         text_src = text_right
         text_dst = text_left
-        cb_src   = cb_left
-        cb_dst   = cb_right
+        cb_src   = cb_right
+        cb_dst   = cb_left
 
 
     #翻訳先の文字を消す
