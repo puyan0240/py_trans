@@ -90,6 +90,9 @@ def btn_trans_dir_clicked():
 ############################################################
 def btn_trans_clicked():
 
+    #翻訳実行ボタン規制(２重押し防止)
+    btn_trans.config(state=tkinter.DISABLED)
+
     #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
         #Text
@@ -142,6 +145,8 @@ def btn_trans_clicked():
     #改行を全て削除
     str_src = str_src.replace("\n", "")
     if len(str_src) == 0:
+        #翻訳実行ボタン許可(２重押し防止)
+        btn_trans.config(state=tkinter.NORMAL)
         return  #入力文字数なし
 
     #分割文字を分割文字+改行に置換
@@ -174,6 +179,9 @@ def btn_trans_clicked():
                 print(e)
         else:
             pass
+
+    #翻訳実行ボタン許可(２重押し防止)
+    btn_trans.config(state=tkinter.NORMAL)
     return
 
 
