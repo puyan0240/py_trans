@@ -37,7 +37,7 @@ lang_tbl = [
 #翻訳方向ボタンが押されました
 ############################################################
 def btn_trans_dir_clicked():
-    global trans_dir
+    global trans_dir,trans_dir_text_tbl
 
     if trans_dir == TRANS_DIR_RIGHT:
         trans_dir = TRANS_DIR_LEFT      #翻訳は右から左へ
@@ -52,8 +52,7 @@ def btn_trans_dir_clicked():
         label_right['text'] = "翻訳先"
 
     #ボタンの表示を変更
-    trans_dir_text = trans_dir_text_tbl[trans_dir]
-    btn_trans_dir['text'] = trans_dir_text
+    btn_trans_dir['text'] = trans_dir_text_tbl[trans_dir]
     return
 
 
