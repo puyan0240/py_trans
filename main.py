@@ -162,10 +162,11 @@ def btn_trans_clicked():
     #-------------------------------------------------------
     trans = Translator()
 
+    lang_auto_src = ""
     for str_src_line in str_src_list:
         if len(str_src_line) != 0:  #１文字以上ある場合
             try:
-                if lang_src == "":  #翻訳元=自動
+                if lang_src == "":  #翻訳元=auto
                     result = trans.translate(str_src_line, dest=lang_dst)
                 else:   #翻訳元=指定あり
                     result = trans.translate(str_src_line, src=lang_src, dest=lang_dst)
@@ -174,6 +175,7 @@ def btn_trans_clicked():
                 text_dst.config(state=tkinter.NORMAL)   #入力許可
                 text_dst.insert(tkinter.END, result.text+"\n")
                 text_dst.config(state=tkinter.DISABLED) #入力規制
+                lang_auto_src = result.src  #翻訳元の言語
 
             except Exception as e:
                 print(e)
@@ -182,6 +184,14 @@ def btn_trans_clicked():
 
     #翻訳実行ボタン許可(２重押し防止)
     btn_trans.config(state=tkinter.NORMAL)
+
+    #翻訳元の言語がautoの場合は解析結果の翻訳元の言語を表示する
+    if lang_src == "":  #翻訳元=auto
+        for key in googletrans.LANGCODES:
+            if googletrans.LANGCODES[key] == lang_auto_src:
+                print(key)  #TODO
+                break
+    print(lang_auto_src)    #TODO
     return
 
 
