@@ -65,24 +65,31 @@ def btn_trans_clicked():
 
     #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
+        #Text
         text_src = text_left
         text_dst = text_right
+        #Combobox
         cb_src   = cb_left
         cb_dst   = cb_right
     else:
+        #Text
         text_src = text_right
         text_dst = text_left
+        #Combobox
         cb_src   = cb_right
         cb_dst   = cb_left
 
 
     #翻訳先の文字を消す
+    text_dst.config(state=tkinter.NORMAL)   #入力許可
     text_dst.delete('1.0', tkinter.END)
+    text_dst.config(state=tkinter.DISABLED) #入力規制
 
-    lang_src = lang_dst = ""
+
     #-------------------------------------------------------
     #翻訳言語取得
     #-------------------------------------------------------
+    lang_src = lang_dst = ""
     #翻訳元
     if cb_src.get() != "自動":
         for lang_tbl_line in lang_tbl:
@@ -130,9 +137,12 @@ def btn_trans_clicked():
                     result = trans.translate(str_src_line, dest=lang_dst)
                 else:   #翻訳元=指定あり
                     result = trans.translate(str_src_line, src=lang_src, dest=lang_dst)
-                #print(result.text)
+
                 #翻訳先に出力
+                text_dst.config(state=tkinter.NORMAL)   #入力許可
                 text_dst.insert(tkinter.END, result.text+"\n")
+                text_dst.config(state=tkinter.DISABLED) #入力規制
+
             except Exception as e:
                 print(e)
         else:
@@ -169,6 +179,7 @@ cb_left.grid(row=1, column=0)
 
 #Text
 text_left = tkinter.Text(frame_trans, width=60,padx=10)
+text_left.config(state=tkinter.NORMAL)   #入力許可
 text_left.grid(row=2, column=0, padx=10, pady=10)
 
 
@@ -205,6 +216,7 @@ cb_right.grid(row=1, column=2)
 
 #Text
 text_right = tkinter.Text(frame_trans, width=60, padx=10)
+text_right.config(state=tkinter.DISABLED)   #入力規制
 text_right.grid(row=2, column=2, padx=10, pady=10)
 
 
