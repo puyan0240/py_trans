@@ -11,8 +11,8 @@ TRANS_DIR_LEFT = 1  #右から左へ
 TRANS_DIR_TBL_VAL = 0
 TRANS_DIR_TBL_TEXT = 1
 trans_dir_text_tbl = [
-    ">>> 翻訳方向 >>>", #TRANS_DIR_RIGHT
-    "<<< 翻訳方向 <<<", #TRANS_DIR_LEFT
+    "---->", #TRANS_DIR_RIGHT
+    "<----", #TRANS_DIR_LEFT
 ]
 trans_dir = TRANS_DIR_RIGHT
 
@@ -162,10 +162,14 @@ text_left.grid(row=2, column=0)
 #-----------------------------------------------------------
 #ボタン
 #-----------------------------------------------------------
+#ラベル
+label_dir = tkinter.Label(frame_trans, text="翻訳方向")
+label_dir.grid(row=0, column=1)
+
 #翻訳方向ボタン
 trans_dir_text = trans_dir_text_tbl[trans_dir]
 btn_trans_dir = tkinter.Button(frame_trans, text=trans_dir_text, width=15, command=btn_trans_dir_clicked)
-btn_trans_dir.grid(row=0, column=1, rowspan=2)
+btn_trans_dir.grid(row=1, column=1)
 
 #翻訳実行ボタン
 btn_trans = tkinter.Button(frame_trans, text="翻訳", width=15, command=btn_trans_clicked)
