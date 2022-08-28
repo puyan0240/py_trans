@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import ttk
+from tkinter import ttk,messagebox
 import googletrans
 from googletrans import Translator  #google翻訳
 import re
@@ -296,6 +296,7 @@ def play_task():
     #print(str_dst_list)
 
     #１行毎に読み上げる(PLAY)
+    play_err = False
     for str_dst_line in str_dst_list:
         if len(str_dst_line) != 0:
             #音声ファイル化
@@ -304,6 +305,8 @@ def play_task():
                 output.save(TMP_PLAY_FILENAME)
             except Exception as e:
                 print("save err: "+str(e))
+                play_err = True
+                break
 
             #音声ファイルを再生
             #
@@ -311,13 +314,21 @@ def play_task():
                 playsound(TMP_PLAY_FILENAME)
             except Exception as e:
                 print("play err: "+str(e))
+                play_err = True
+                break
             
             #音声ファイルを削除
             try:
                 os.remove(TMP_PLAY_FILENAME)
             except Exception as e:
                 print("remove err: "+str(e))
+                play_err = True
+                break
     
+    #再生失敗時はエラーポップアップを表示する
+    if play_err == True:
+        messagebox.showerror("エラー", "再生に失敗しました")
+
     #print("play_task end !!")
     #一括ボタン押下禁止解除
     btn_all_inhibit(False)
