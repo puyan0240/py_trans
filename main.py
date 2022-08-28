@@ -256,7 +256,8 @@ def btn_play_clicked():
 
     #再生は専用のタスクで実施する
     task_id = threading.Thread(target=play_task)
-    task_id.run()
+    task_id.start()
+    #task_id.join()
     return
 
 
