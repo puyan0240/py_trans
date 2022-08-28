@@ -61,6 +61,12 @@ def btn_all_inhibit(mode):
         btn_reset.config(state=tkinter.DISABLED)
         btn_reset.update()
 
+        cb_left.config(state=tkinter.DISABLED)
+        cb_left.update()
+
+        cb_right.config(state=tkinter.DISABLED)
+        cb_left.update()
+
     else: #解除
         btn_trans_dir.config(state=tkinter.NORMAL)
         btn_trans_dir.update()
@@ -73,6 +79,13 @@ def btn_all_inhibit(mode):
 
         btn_reset.config(state=tkinter.NORMAL)
         btn_reset.update()
+
+        cb_left.config(state=tkinter.NORMAL)
+        cb_left.update()
+
+        cb_right.config(state=tkinter.NORMAL)
+        cb_left.update()
+
 
 
 ############################################################
