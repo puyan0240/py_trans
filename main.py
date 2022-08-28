@@ -45,6 +45,37 @@ TMP_PLAY_FILENAME = "tmp_play.mp3"
 
 
 ############################################################
+#一括ボタン押下禁止
+############################################################
+def btn_all_inhibit(mode):
+    if mode == True:    #押下禁止
+        btn_trans_dir.config(state=tkinter.DISABLED)
+        btn_trans_dir.update()
+
+        btn_trans.config(state=tkinter.DISABLED)
+        btn_trans.update()
+
+        btn_play.config(state=tkinter.DISABLED)
+        btn_play.update()
+
+        btn_reset.config(state=tkinter.DISABLED)
+        btn_reset.update()
+
+    else: #解除
+        btn_trans_dir.config(state=tkinter.NORMAL)
+        btn_trans_dir.update()
+
+        btn_trans.config(state=tkinter.NORMAL)
+        btn_trans.update()
+
+        btn_play.config(state=tkinter.NORMAL)
+        btn_play.update()
+
+        btn_reset.config(state=tkinter.NORMAL)
+        btn_reset.update()
+
+
+############################################################
 #翻訳方向ボタンが押されました
 ############################################################
 def btn_trans_dir_clicked():
@@ -99,8 +130,8 @@ def btn_trans_dir_clicked():
 ############################################################
 def btn_trans_clicked():
 
-    #翻訳実行ボタン規制(２重押し防止)
-    btn_trans.config(state=tkinter.DISABLED)
+    #一括ボタン押下禁止(2重押下回避のため)
+    btn_all_inhibit(True)
 
     #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
@@ -196,9 +227,6 @@ def btn_trans_clicked():
         else:
             pass
 
-    #翻訳実行ボタン許可(２重押し防止)
-    btn_trans.config(state=tkinter.NORMAL)
-
     #翻訳元の言語がautoの場合は解析結果の言語をLabelに表示する
     label_src['text'] = "翻訳元"
     if lang_src == "":  #翻訳元=auto
@@ -207,6 +235,10 @@ def btn_trans_clicked():
                 text = " ("+ key +")"
                 label_src['text'] += text
                 break
+    
+    #一括ボタン押下禁止解除
+    btn_all_inhibit(False)
+
     return
 
 
@@ -216,11 +248,11 @@ def btn_trans_clicked():
 def btn_play_clicked():
     global trans_dir
 
-    #再生中は動作が止まるのでボタン押下を規制する
-    btn_play.config(state=tkinter.DISABLED)
-
     #先に翻訳する
     btn_trans_clicked()
+
+    #一括ボタン押下禁止(2重押下回避のため)
+    btn_all_inhibit(True)
 
     #再生は専用のタスクで実施する
     task_id = threading.Thread(target=play_task)
@@ -255,7 +287,7 @@ def play_task():
         if val[LANG_TBL_NAME] == cb_dst.get():
             lang_dst = val[LANG_TBL_PARAME]
             break
-    print(lang_dst)
+    #print(lang_dst)
 
     #翻訳先の言語を改行毎にリスト化する
     str_dst = text_dst.get('1.0', tkinter.END)
@@ -286,8 +318,8 @@ def play_task():
                 print("remove err: "+str(e))
     
     #print("play_task end !!")
-    #ボタン規制解除
-    btn_play.config(state=tkinter.NORMAL)
+    #一括ボタン押下禁止解除
+    btn_all_inhibit(False)
 
 
 ############################################################
