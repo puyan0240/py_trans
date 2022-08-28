@@ -29,11 +29,13 @@ lang_tbl = [
     ["English (英語)", "en"],
     ["German (ドイツ語)", "de"],
     ["French (フランス語)", "fr"],
+    ["Italian (イタリア語)", "it"],
     ["Spanish (スペイン語)", "es"],
     ["Portuguese (ポルトガル語)", "pt"],
     ["Russian (ロシア語)", "ru"],
     ["Korean (韓国語)", "ko"],
-    ["chinese (中国語)", "zh-cn"]
+    ["chinese (中国語)", "zh-cn"],
+    ["Vietnamese (ベトナム語)", "vi"]
 ]
 lang_auto_puls_tbl = [
     ["Auto", ""]
