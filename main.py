@@ -187,6 +187,7 @@ def btn_trans_clicked():
                 text_dst.config(state=tkinter.NORMAL)   #入力許可
                 text_dst.insert(tkinter.END, result.text+"\n")  #改行付きで
                 text_dst.config(state=tkinter.DISABLED) #入力規制
+                text_dst.update()
                 lang_auto_src = result.src  #翻訳元の言語
 
             except Exception as e:
@@ -214,6 +215,15 @@ def btn_trans_clicked():
 def btn_play_clicked():
     global trans_dir
 
+    #-------------------------------------------------------
+    #先に翻訳する
+    #-------------------------------------------------------
+    btn_trans_clicked()
+
+
+    #-------------------------------------------------------
+    #再生
+    #-------------------------------------------------------
     #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
         #Text
@@ -348,7 +358,7 @@ btn_trans = tkinter.Button(frame_trans, text="翻訳", width=15, command=btn_tra
 btn_trans.grid(row=2, column=1,sticky=tkinter.S, padx=5, pady=5)
 
 #読み上げボタン
-btn_play = tkinter.Button(frame_trans, text="PLAY", width=15, command=btn_play_clicked)
+btn_play = tkinter.Button(frame_trans, text="翻訳+PLAY", width=15, command=btn_play_clicked)
 btn_play.grid(row=3, column=1,sticky=tkinter.N, padx=5, pady=5)
 
 
