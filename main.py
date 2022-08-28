@@ -380,7 +380,7 @@ def btn_reset_clicked():
 
 
 root = tkinter.Tk()
-root.title("Trans")
+root.title("翻訳くん")
 #root.geometry("1000x600")
 
 frame_top = tkinter.Frame(root)
