@@ -406,7 +406,7 @@ cb_left.current(0)
 cb_left.grid(row=1, column=0)
 
 #Text
-text_left = tkinter.Text(frame_trans,  relief=tkinter.SOLID, width=60,padx=10)
+text_left = tkinter.Text(frame_trans,  relief=tkinter.SOLID, width=60,height=40, padx=10)
 text_left.config(state=tkinter.NORMAL)   #入力許可
 text_left.config(bg="white", bd=1)    #入力許可時のText表示
 text_left.grid(row=2, rowspan=3, column=0, padx=10, pady=10)
@@ -456,7 +456,7 @@ cb_right.current(0)
 cb_right.grid(row=1, column=2)
 
 #Text
-text_right = tkinter.Text(frame_trans, relief=tkinter.SOLID, width=60, padx=10)
+text_right = tkinter.Text(frame_trans, relief=tkinter.SOLID, width=60, height=40,padx=10)
 text_right.config(state=tkinter.DISABLED)   #入力規制
 text_right.config(bg="gray97", bd=0)    #入力規制時のText表示
 text_right.grid(row=2, rowspan=3, column=2, padx=10, pady=10)
