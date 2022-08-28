@@ -403,7 +403,7 @@ cb_menu = [] #メニューリスト
 for val in lang_auto_puls_tbl:
     cb_menu.append(val[LANG_TBL_NAME])
 v_left = tkinter.StringVar()
-cb_left = ttk.Combobox(frame_trans, textvariable=v_left, values=cb_menu, state="readonly", width=20)
+cb_left = ttk.Combobox(frame_trans, textvariable=v_left, values=cb_menu, state="readonly", width=25)
 cb_left.current(0)
 cb_left.grid(row=1, column=0)
 
@@ -453,7 +453,7 @@ cb_menu = [] #メニューリスト
 for val in lang_tbl:
     cb_menu.append(val[LANG_TBL_NAME])
 v_right = tkinter.StringVar()
-cb_right = ttk.Combobox(frame_trans, textvariable=v_right, values=cb_menu, state="readonly", width=20)
+cb_right = ttk.Combobox(frame_trans, textvariable=v_right, values=cb_menu, state="readonly", width=25)
 cb_right.current(0)
 cb_right.grid(row=1, column=2)
 
