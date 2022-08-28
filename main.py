@@ -202,8 +202,8 @@ def btn_trans_clicked():
     #改行を全て削除
     str_src = str_src.replace("\n", "")
     if len(str_src) == 0:
-        #翻訳実行ボタン許可(２重押し防止)
-        btn_trans.config(state=tkinter.NORMAL)
+        #一括ボタン押下禁止解除
+        btn_all_inhibit(False)
         return  #入力文字数なし
 
     #分割文字を分割文字+改行に置換
