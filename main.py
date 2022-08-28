@@ -6,6 +6,7 @@ import re
 from gtts import gTTS   #文字->音声ファイル化
 from playsound import playsound #音声ファイルを再生
 import os
+import threading    #スレッド
 
 
 #翻訳方向
@@ -215,15 +216,26 @@ def btn_trans_clicked():
 def btn_play_clicked():
     global trans_dir
 
-    #-------------------------------------------------------
+    #再生中は動作が止まるのでボタン押下を規制する
+    btn_play.config(state=tkinter.DISABLED)
+
     #先に翻訳する
-    #-------------------------------------------------------
     btn_trans_clicked()
 
+    #再生は専用のタスクで実施する
+    task_id = threading.Thread(target=play_task)
+    task_id.run()
+    return
 
-    #-------------------------------------------------------
-    #再生
-    #-------------------------------------------------------
+
+############################################################
+#再生タスク
+############################################################
+def play_task():
+    global trans_dir
+    #print("play_task start")
+
+
     #翻訳方向
     if trans_dir == TRANS_DIR_RIGHT:   #翻訳は左から右
         #Text
@@ -272,8 +284,10 @@ def btn_play_clicked():
                 os.remove(TMP_PLAY_FILENAME)
             except Exception as e:
                 print("remove err: "+str(e))
-    return
-
+    
+    #print("play_task end !!")
+    #ボタン規制解除
+    btn_play.config(state=tkinter.NORMAL)
 
 
 ############################################################
